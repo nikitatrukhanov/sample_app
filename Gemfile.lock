@@ -26,6 +26,12 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     arel (4.0.2)
+    autoprefixer-rails (5.0.0.3)
+      execjs
+      json
+    bootstrap-sass (3.3.3)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     builder (3.1.4)
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -161,7 +167,7 @@ GEM
       websocket (~> 1.0.4)
     shellany (0.0.1)
     slop (3.6.0)
-    sprockets (2.12.3)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -192,6 +198,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass
   capybara (= 2.2.0)
   coffee-rails (= 4.0.1)
   guard-rspec (= 4.5.0)
@@ -204,5 +211,6 @@ DEPENDENCIES
   sass-rails (= 4.0.1)
   sdoc (= 0.3.20)
   selenium-webdriver (= 2.35.1)
+  sprockets (= 2.11.0)
   turbolinks (= 1.1.1)
   uglifier (= 2.1.1)
