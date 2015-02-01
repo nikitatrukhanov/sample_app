@@ -11,6 +11,7 @@ gem 'bcrypt-ruby'
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', '4.5.0', require: false
+  gem 'factory_girl_rails'
 end
 
 group :test do
