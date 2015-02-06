@@ -16,6 +16,8 @@ RSpec.describe User, :type => :model do
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
+  it { should respond_to(:microposts) }
+  it { should respond_to(:feed_m) }
   it { should be_valid }
 
   describe "with admin attribute set to 'true'" do
@@ -128,6 +130,40 @@ RSpec.describe User, :type => :model do
   describe 'remember token' do
     before { @user.save }
     it { expect(@user.remember_token).not_to be_blank }
+  end
+
+  describe "micropost associations" do
+
+    before { @user.save }
+    let!(:older_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right microposts in the right order" do
+      expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
+    end
+
+    it 'should destroy associated microposts' do
+      microposts = @user.microposts.to_a
+      @user.destroy
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.id)).to be_empty
+      end
+    end
+
+    describe 'status' do
+      let(:unfollowed_post) do
+        FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
+      end
+
+      it { expect(:feed_m).should include(newer_micropost) }
+      it { expect(:feed_m).to include(older_micropost) }
+      it { expect(:feed_m).not_to include(unfollowed_post) }
+    end
   end
 
 end

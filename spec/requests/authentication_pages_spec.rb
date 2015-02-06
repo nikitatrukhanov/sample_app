@@ -73,6 +73,18 @@ RSpec.describe "AuthenticationPages", :type => :request do
           it { should have_title('Sign in') }
         end
       end
+
+      describe 'in the Microposts controller' do
+        describe 'submitting create action' do
+          before { post microposts_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe 'submitting to destroy action' do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
     end
 
     describe 'as wrong user' do
@@ -121,17 +133,6 @@ RSpec.describe "AuthenticationPages", :type => :request do
 
       specify{expect(response).to redirect_to(root_path)}
     end
-
-    # describe "admin user should not delete himself " do
-    #   let(:admin) { FactoryGirl.create(:admin) }
-    #
-    #   before do
-    #     sign_in admin, no_copybara: true
-    #     delete user_path(admin)
-    #   end
-    #   it { expect(page).to have_content('All users') }
-    #   it { expect(page).to have_content("You can't delete yourself") }
-    # end
 
     describe "as admin user" do
       let(:admin) { FactoryGirl.create(:admin) }
